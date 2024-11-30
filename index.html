@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Expenses chart component</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header>
+  <div class="balance">
+    <p>My balance</p>
+    <h3>$921.48</h3>
+  </div>
+  <img src="./images/logo.svg" alt="">
+</header>
+<section>
+  <h3>Spending - Last 7 days</h3>
+  <div class="charts">
+    <div class="day">
+      <div class="rect"></div>
+      <span>mon</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>tue</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>wed</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>thu</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>fri</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>sat</span>
+    </div>
+    <div class="day">
+      <div class="rect"></div>
+      <span>sun</span>
+    </div>
+  </div>
+  <div class="footer">
+    <div>
+      <span>Total this month</span>
+      <h3>$478.33</h3>
+    </div>
+    <div>
+      <h3>+2.4%</h3>
+      <span>from last month</span>
+    </div>
+  </div>
+</section>
+  </div>
+  <script>
+    let spans = document.querySelectorAll(".day > span");
+    const days = ["sun","mon","tue","wed","thu","fri","sat"];
+    let date = new Date().getDay();
+    spans.forEach((span) => {
+      if(span.innerHTML == days[date] ){
+        let rect = span.previousElementSibling;
+        rect.style.background = "hsl(186, 34%, 60%)"
+      }
+    });
+    async function getData() {
+      let response =  await fetch("./data.json");
+      let data = await response.json();
+      spans.forEach((span,i) => {
+        if(span.innerHTML == data[i].day) {
+          let rect = span.previousElementSibling
+          rect.style.height = (data[i].amount * 2.5) + "px"
+        }
+        let spanChild = document.createElement("span");
+        spanChild.className = "hov";
+        spanChild.innerHTML = "$"+ data[i].amount;
+        let parent = span.parentElement;
+        parent.append(spanChild)
+      }
+      
+    )};
+    getData() 
+
+
+  </script>
+</body>
+</html>
